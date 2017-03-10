@@ -1,4 +1,7 @@
-const UserModel = Backbone.Model.extend({
+import Backbone from 'backbone'
+import $ from 'jquery'
+
+export const UserModel = Backbone.Model.extend({
 	initialize: function(){
 		
 	},
@@ -6,12 +9,12 @@ const UserModel = Backbone.Model.extend({
 	idAttribute: '_id'
 })
 
-UserModel.logIn =  function(username, pw){
+UserModel.logIn =  function(username, password){
 	if(typeof username !== 'string' || typeof password !== 'string'  ){ throw new Error(`UserModel.login() must receive string 2 string paramaters for username and password`) }
 
 	return $.ajax({
 		method: 'POST',
-		data: JSON.stringify({ username: username, password: pw}),
+		data: JSON.stringify({ username: username, password: password}),
 		headers: {
 			'Content-Type': 'application/json'
 		},
@@ -19,13 +22,13 @@ UserModel.logIn =  function(username, pw){
 	})
 }
 
-UserModel.register =  function(data){
-	if(typeof data !== 'object' ){ throw new Error(`UserModel.register() must receive an object`) }
-	if(typeof data.username === 'undefined' || typeof data.password === 'undefined'  ){ throw new Error(`UserModel.register() must receive an object w/ username + password`) }
+UserModel.register =  function(dataObj){
+	if(typeof dataObj !== 'object' ){ throw new Error(`UserModel.register() must receive an object`) }
+	if(typeof dataObj.username === 'undefined' || typeof dataObj.password === 'undefined'  ){ throw new Error(`UserModel.register() must receive an object w/ username + password`) }
 
 	return $.ajax({
 		method: 'POST',
-		data: JSON.stringify({ username: username, password: pw}),
+		data: JSON.stringify(dataObj),
 		headers: {
 			'Content-Type': 'application/json'
 		},
@@ -36,7 +39,6 @@ UserModel.register =  function(data){
 UserModel.getCurrentUser =  function(){
 	return $.ajax({
 		method: 'GET',
-		data: JSON.stringify({ username: username, password: pw}),
 		headers: {
 			'Content-Type': 'application/json'
 		},
